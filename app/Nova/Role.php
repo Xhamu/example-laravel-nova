@@ -60,11 +60,13 @@ class Role extends Resource
             Text::make('Guard Name')
                 ->rules('required'),
 
+            Text::make('Permissions', function () {
+                return $this->permissions->pluck('name')->implode(', ');
+            })->sortable(),
+
             BelongsToMany::make('Permissions')
                 ->display('name')
-                ->rules('required'),
-
-
+                ->sortable(),
         ];
     }
 

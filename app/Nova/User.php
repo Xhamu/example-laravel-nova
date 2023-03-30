@@ -10,10 +10,10 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Resource;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\PasswordConfirmation;
-
-
+use Laravel\Nova\Fields\Select;
 
 class User extends Resource
 {
@@ -42,6 +42,14 @@ class User extends Resource
         'id', 'name', 'email',
     ];
 
+    public static function rowClass($resource)
+    {
+        if ($resource->hasRole('admin')) {
+            return 'bg-yellow-200';
+        }
+        return '';
+    }
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -69,7 +77,8 @@ class User extends Resource
                 ->onlyOnForms(),
 
             PasswordConfirmation::make('Password Confirmation')
-                ->rules('required'),
+                ->creationRules('required')
+                ->updateRules('nullable'),
 
             BelongsTo::make('Profession', 'profession', Profession::class)
                 ->display('name')
@@ -78,6 +87,8 @@ class User extends Resource
             HasMany::make('Tasks'),
 
             BelongsToMany::make('Roles', 'roles', Role::class)
+                ->display('name')
+                ->sortable(),
         ];
     }
 

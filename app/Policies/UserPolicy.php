@@ -28,7 +28,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->hasRole('admin');
     }
 
     /**
@@ -36,15 +36,16 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return true;
+        return $user->id === $model->id || $user->hasRole('admin') || $user->hasRole('editor');
     }
+
 
     /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, User $model): bool
     {
-        return true;
+        return $user->hasRole('admin');
     }
 
     /**
@@ -52,7 +53,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model): bool
     {
-        return true;
+        return $user->hasRole('admin');
     }
 
     /**
@@ -60,6 +61,6 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model): bool
     {
-        return true;
+        return $user->hasRole('admin');
     }
 }

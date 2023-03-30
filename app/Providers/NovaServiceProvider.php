@@ -95,6 +95,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function register()
     {
-        Nova::initialPath('/resources/users');
+        Nova::initialPath('/dashboards/main');
     }
 }

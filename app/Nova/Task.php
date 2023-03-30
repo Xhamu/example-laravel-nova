@@ -11,6 +11,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Task extends Resource
 {
+
+    public static $displayInNavigation = false;
     /**
      * The model the resource corresponds to.
      *
@@ -44,9 +46,9 @@ class Task extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('User', 'user', 'App\Nova\User'),
+            BelongsTo::make('User', 'user', 'App\Nova\User')->withoutTrashed(),
             Text::make('Name')->rules('required', 'max:255'),
-            Number::make('Coste')->min(0)->step(0.01)->rules('required'),
+            Number::make('Coste')->min(0)->step(1)->rules('required'),
         ];
     }
 
