@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Nova\Role;
+use App\Nova\User;
+use App\Nova\Permission;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -16,6 +20,21 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::resources([
+            User::class,
+            Role::class,
+            Permission::class
+        ]);
+
+        Nova::footer(function ($request) {
+            return Blade::render('
+            @env(\'prod\')
+                This is production!
+            @endenv');
+        });
+
+        Nova::withBreadcrumbs();
     }
 
     /**
@@ -76,6 +95,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function register()
     {
-        //
+        Nova::initialPath('/resources/users');
     }
 }

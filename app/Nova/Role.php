@@ -2,27 +2,29 @@
 
 namespace App\Nova;
 
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\BelongsTo;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Nova\Resource;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\PasswordConfirmation;
+use App\Nova\NovaDependyContainer;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Permission;
+use Laravel\Nova\Fields\MultiSelect;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Tag;
 
-
-
-class User extends Resource
+class Role extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Role>
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Role::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -31,15 +33,13 @@ class User extends Resource
      */
     public static $title = 'name';
 
-    protected $gravatar = 'gravatar';
-
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'name',
     ];
 
     /**
@@ -54,30 +54,17 @@ class User extends Resource
             ID::make()->sortable(),
 
             Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required')
+                ->creationRules('unique:roles,name'),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->creationRules('required', Rules\Password::defaults(), 'confirmed')
-                ->updateRules('nullable', Rules\Password::defaults(), 'confirmed')
-                ->onlyOnForms(),
-
-            PasswordConfirmation::make('Password Confirmation')
+            Text::make('Guard Name')
                 ->rules('required'),
 
-            BelongsTo::make('Profession', 'profession', Profession::class)
+            BelongsToMany::make('Permissions')
                 ->display('name')
-                ->sortable(),
+                ->rules('required'),
 
-            HasMany::make('Tasks'),
 
-            BelongsToMany::make('Roles', 'roles', Role::class)
         ];
     }
 

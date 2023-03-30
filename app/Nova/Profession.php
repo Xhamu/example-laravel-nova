@@ -2,36 +2,27 @@
 
 namespace App\Nova;
 
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Nova\Resource;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\PasswordConfirmation;
 
-
-
-class User extends Resource
+class Profession extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Profession>
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Profession::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
-
-    protected $gravatar = 'gravatar';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -39,7 +30,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id',
     ];
 
     /**
@@ -57,27 +48,10 @@ class User extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Email')
+            Textarea::make('Description')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->creationRules('required', Rules\Password::defaults(), 'confirmed')
-                ->updateRules('nullable', Rules\Password::defaults(), 'confirmed')
-                ->onlyOnForms(),
-
-            PasswordConfirmation::make('Password Confirmation')
-                ->rules('required'),
-
-            BelongsTo::make('Profession', 'profession', Profession::class)
-                ->display('name')
-                ->sortable(),
-
-            HasMany::make('Tasks'),
-
-            BelongsToMany::make('Roles', 'roles', Role::class)
+                ->rows(5)
+                ->rules('required', 'max:255'),
         ];
     }
 
