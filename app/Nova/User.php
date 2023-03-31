@@ -6,11 +6,14 @@ use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Resource;
+use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\PasswordConfirmation;
 use Laravel\Nova\Fields\Select;
@@ -42,14 +45,6 @@ class User extends Resource
         'id', 'name', 'email',
     ];
 
-    public static function rowClass($resource)
-    {
-        if ($resource->hasRole('admin')) {
-            return 'bg-yellow-200';
-        }
-        return '';
-    }
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -60,6 +55,14 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
+
+            Avatar::make('Avatar')
+                ->rules('required')
+                ->disk('public')
+                ->path('avatars')
+                ->maxWidth(60)
+                ->rounded()
+                ->disableDownload(),
 
             Text::make('Name')
                 ->sortable()
@@ -77,7 +80,6 @@ class User extends Resource
                 ->onlyOnForms(),
 
             PasswordConfirmation::make('Password Confirmation')
-                ->creationRules('required')
                 ->updateRules('nullable'),
 
             BelongsTo::make('Profession', 'profession', Profession::class)

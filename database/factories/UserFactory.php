@@ -27,6 +27,7 @@ class UserFactory extends Factory
             'password' => bcrypt('abc123'),
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
+            'avatar' => 'avatars/default.png'
         ];
     }
 
