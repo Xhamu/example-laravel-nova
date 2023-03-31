@@ -6,17 +6,13 @@ use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Resource;
 use Laravel\Nova\Fields\Avatar;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\PasswordConfirmation;
-use Laravel\Nova\Fields\Select;
 
 class User extends Resource
 {
@@ -67,7 +63,7 @@ class User extends Resource
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-
+                
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
@@ -113,7 +109,9 @@ class User extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            new Filters\UserType,
+        ];
     }
 
     /**

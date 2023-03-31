@@ -4,6 +4,8 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\Text;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -47,6 +49,8 @@ class Profession extends Resource
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
+
+            HasMany::make('Users', 'users', User::class),
 
             Textarea::make('Description')
                 ->sortable()
