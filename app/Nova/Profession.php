@@ -32,7 +32,7 @@ class Profession extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'name'
     ];
 
     /**

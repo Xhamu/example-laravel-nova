@@ -12,7 +12,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class Task extends Resource
 {
 
-    public static $displayInNavigation = false;
+    public static $displayInNavigation = true;
     /**
      * The model the resource corresponds to.
      *
