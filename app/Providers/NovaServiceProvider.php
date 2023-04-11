@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Nova\Dashboards\Main;
 use App\Nova\Task;
 use App\Nova\Profession;
 use App\Nova\Role;
@@ -28,15 +29,17 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::mainMenu(function (Request $request) {
             return [
+                MenuSection::dashboard(Main::class)->icon('chart-bar'),
+
                 MenuSection::make('Usuarios', [
-                    MenuItem::resource(User::class),
-                    MenuItem::resource(Task::class),
-                    MenuItem::resource(Profession::class),
+                    MenuItem::make('Usuarios', '/resources/users'),
+                    MenuItem::make('Tareas', '/resources/tasks'),
+                    MenuItem::make('Profesiones', 'resources/professions'),
                 ])->icon('user')->collapsable(),
 
                 MenuSection::make('Roles', [
-                    MenuItem::resource(Role::class),
-                    MenuItem::resource(Permission::class),
+                    MenuItem::make('Roles', 'resources/roles'),
+                    MenuItem::make('Permisos', 'resources/permissions'),
                 ])->icon('shield-check')->collapsable(),
             ];
         });

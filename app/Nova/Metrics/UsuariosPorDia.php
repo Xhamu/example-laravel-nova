@@ -27,9 +27,10 @@ class UsuariosPorDia extends Trend
     public function ranges()
     {
         return [
-            30 => __('30 Days'),
-            60 => __('60 Days'),
-            90 => __('90 Days'),
+            7 => __('Hace 1 semana'),
+            30 => __('Hace 1 mes'),
+            60 => __('Hace 2 meses'),
+            365 => __('Hace 1 año'),
         ];
     }
 

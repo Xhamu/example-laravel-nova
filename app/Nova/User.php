@@ -109,7 +109,7 @@ class User extends Resource
     public function filters(NovaRequest $request)
     {
         return [
-            new Filters\UserType,
+            new Filters\TipoUsuario,
         ];
     }
 

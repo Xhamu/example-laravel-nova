@@ -27,6 +27,6 @@ class Main extends Dashboard
 
     public function name()
     {
-        return 'Pantalla de Inicio';
+        return 'Inicio';
     }
 }

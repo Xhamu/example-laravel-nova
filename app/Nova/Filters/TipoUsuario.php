@@ -6,7 +6,7 @@ use App\Models\User;
 use Laravel\Nova\Filters\BooleanFilter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class UserType extends BooleanFilter
+class TipoUsuario extends BooleanFilter
 {
     /**
      * The filter's component.

@@ -27,10 +27,12 @@ class UsuariosRegistrados extends Value
     public function ranges()
     {
         return [
-            7 => __('Hace 1 semana'),
-            30 => __('Hace 1 mes'),
-            60 => __('Hace 2 meses'),
+            'TODAY' => __('Today'),
+            'YESTERDAY' => __('Yesterday'),
+            30 => __('Hace 30 días'),
+            60 => __('Hace 60 días'),
             365 => __('Hace 1 año'),
+            'ALL' => __('Todo el tiempo'),
         ];
     }
 
