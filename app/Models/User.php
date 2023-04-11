@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'profession_id',
         'avatar',
+        'is_admin',
     ];
 
     /**
@@ -66,5 +67,14 @@ class User extends Authenticatable
     public function hasRole(string $roleName): bool
     {
         return $this->roles()->where('name', $roleName)->exists();
+    }
+
+    public function setIsAdminAttribute()
+    {
+        if ($this->hasRole('admin')) {
+            $this->attributes['is_admin'] = true;
+        } else {
+            $this->attributes['is_admin'] = false;
+        }
     }
 }

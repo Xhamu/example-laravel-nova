@@ -53,7 +53,6 @@ class User extends Resource
             ID::make()->sortable(),
 
             Avatar::make('Avatar')
-                ->rules('required')
                 ->disk('public')
                 ->path('avatars')
                 ->maxWidth(60)
@@ -63,7 +62,7 @@ class User extends Resource
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-                
+
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
@@ -134,5 +133,15 @@ class User extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public function routeNotificationForMail()
+    {
+        return $this->email_address;
+    }
+
+    public function routeNotificationForDatabase()
+    {
+        return ['connection' => 'database-connection-name', 'table' => 'notifications'];
     }
 }

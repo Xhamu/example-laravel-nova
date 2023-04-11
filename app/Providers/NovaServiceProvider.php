@@ -2,11 +2,16 @@
 
 namespace App\Providers;
 
+use App\Nova\Task;
+use App\Nova\Profession;
 use App\Nova\Role;
 use App\Nova\User;
 use App\Nova\Permission;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -20,19 +25,28 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+        
+        Nova::mainMenu(function (Request $request) {
+            return [
+                MenuSection::make('Usuarios', [
+                    MenuItem::resource(User::class),
+                    MenuItem::resource(Task::class),
+                    MenuItem::resource(Profession::class),
+                ])->icon('user')->collapsable(),
+
+                MenuSection::make('Roles', [
+                    MenuItem::resource(Role::class),
+                    MenuItem::resource(Permission::class),
+                ])->icon('shield-check')->collapsable(),
+            ];
+        });
 
         Nova::resources([
             User::class,
             Role::class,
-            Permission::class
+            Permission::class,
+            Profession::class,
         ]);
-
-        Nova::footer(function ($request) {
-            return Blade::render('
-            @env(\'prod\')
-                This is production!
-            @endenv');
-        });
 
         Nova::withBreadcrumbs();
     }
