@@ -2,6 +2,9 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\AverageTaskPrice;
+use App\Nova\Metrics\NewTasks;
+use App\Nova\Metrics\TasksPerDay;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
@@ -61,7 +64,11 @@ class Task extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            new NewTasks(),
+            new AverageTaskPrice(),
+            new TasksPerDay()
+        ];
     }
 
     /**
