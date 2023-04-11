@@ -2,8 +2,10 @@
 
 namespace App\Observers;
 
+use App\Models\Role;
 use App\Models\User;
 use Laravel\Nova\Notifications\NovaNotification;
+use Laravel\Nova\Nova;
 
 class UserObserver
 {
@@ -12,9 +14,7 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        if ($user->hasRole('admin')) {
-            $this->getNovaNotification($user, 'Nuevo usuario: ', 'success');
-        }
+        $this->getNovaNotification($user, 'Nuevo usuario: ', 'success');
     }
 
     /**
@@ -51,11 +51,18 @@ class UserObserver
 
     private function getNovaNotification($user, $message, $type): void
     {
-        foreach (User::all() as $u) {
-            $u->notify(NovaNotification::make()
+        $admins = User::whereIn('id', function ($query) {
+            $query->select('model_id')
+                ->from('model_has_roles')
+                ->where('role_id', Role::where('name', 'admin')->firstOrFail()->id);
+        })->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(NovaNotification::make()
                 ->message($message . ' ' . $user->name)
                 ->icon('user')
-                ->type($type));
+                ->type($type)
+                ->action('Mostrar detalles', '/resources/users/' . $user->id));
         }
     }
 }
