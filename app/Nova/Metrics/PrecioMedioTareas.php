@@ -4,9 +4,9 @@ namespace App\Nova\Metrics;
 
 use App\Models\Task;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Metrics\Trend;
+use Laravel\Nova\Metrics\Value;
 
-class TasksPerDay extends Trend
+class PrecioMedioTareas extends Value
 {
     /**
      * Calculate the value of the metric.
@@ -16,7 +16,8 @@ class TasksPerDay extends Trend
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->countByDays($request, Task::class);
+        return $this->average($request, Task::class, 'coste')
+        ->currency('€');
     }
 
     /**
@@ -27,9 +28,12 @@ class TasksPerDay extends Trend
     public function ranges()
     {
         return [
-            30 => __('30 Days'),
-            60 => __('60 Days'),
-            90 => __('90 Days'),
+            'TODAY' => __('Today'),
+            'YESTERDAY' => __('Yesterday'),
+            30 => __('Hace 30 días'),
+            60 => __('Hace 60 días'),
+            365 => __('Hace 1 año'),
+            'ALL' => __('Todo el tiempo'),
         ];
     }
 
@@ -41,15 +45,5 @@ class TasksPerDay extends Trend
     public function cacheFor()
     {
         // return now()->addMinutes(5);
-    }
-
-    /**
-     * Get the URI key for the metric.
-     *
-     * @return string
-     */
-    public function uriKey()
-    {
-        return 'tasks-per-day';
     }
 }

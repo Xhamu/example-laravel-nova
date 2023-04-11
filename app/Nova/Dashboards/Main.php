@@ -2,7 +2,8 @@
 
 namespace App\Nova\Dashboards;
 
-use App\Nova\Metrics\AverageTaskPrice;
+use App\Nova\Metrics\PrecioMedioTareas;
+use App\Nova\Metrics\PrecioTotalTareas;
 use App\Nova\Metrics\UsuariosPorDia;
 use App\Nova\Metrics\UsuariosRegistrados;
 use Laravel\Nova\Cards\Help;
@@ -18,9 +19,9 @@ class Main extends Dashboard
     public function cards()
     {
         return [
-            new AverageTaskPrice,
             new UsuariosRegistrados,
-            new UsuariosPorDia
+            new UsuariosPorDia,
+            new PrecioTotalTareas
         ];
     }
 

@@ -2,11 +2,11 @@
 
 namespace App\Nova\Metrics;
 
-use App\Models\User;
+use App\Models\Task;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
-class UsuariosRegistrados extends Value
+class PrecioTotalTareas extends Value
 {
     /**
      * Calculate the value of the metric.
@@ -16,7 +16,7 @@ class UsuariosRegistrados extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, User::class);
+        return $this->sum($request, Task::class, 'coste');
     }
 
     /**

@@ -6,7 +6,7 @@ use App\Models\Task;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
-class AverageTaskPrice extends Value
+class NuevasTareas extends Value
 {
     /**
      * Calculate the value of the metric.
@@ -16,8 +16,7 @@ class AverageTaskPrice extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->average($request, Task::class, 'coste')
-        ->currency('€');
+        return $this->count($request, Task::class);
     }
 
     /**
@@ -28,13 +27,12 @@ class AverageTaskPrice extends Value
     public function ranges()
     {
         return [
-            30 => __('30 Days'),
-            60 => __('60 Days'),
-            365 => __('365 Days'),
             'TODAY' => __('Today'),
-            'MTD' => __('Month To Date'),
-            'QTD' => __('Quarter To Date'),
-            'YTD' => __('Year To Date'),
+            'YESTERDAY' => __('Yesterday'),
+            30 => __('Hace 30 días'),
+            60 => __('Hace 60 días'),
+            365 => __('Hace 1 año'),
+            'ALL' => __('Todo el tiempo'),
         ];
     }
 
