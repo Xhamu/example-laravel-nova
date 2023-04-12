@@ -14,9 +14,12 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Task extends Resource
 {
+    use SearchesRelations;
+
 
     public static $displayInNavigation = true;
     /**
@@ -40,6 +43,10 @@ class Task extends Resource
      */
     public static $search = [
         'name',
+    ];
+
+    public static $searchRelations = [
+        'user' =>  ['name'],
     ];
 
     /**
