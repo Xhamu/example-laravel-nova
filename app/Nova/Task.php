@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\FinalizarTarea;
 use App\Nova\Filters\TareaFinalizada;
 use App\Nova\Metrics\PrecioMedioTareas;
 use App\Nova\Metrics\NuevasTareas;
@@ -53,8 +54,7 @@ class Task extends Resource
             ID::make()->sortable(),
             Text::make('Name')->rules('required', 'max:255')->sortable(),
             BelongsTo::make('User', 'user', 'App\Nova\User')->withoutTrashed()->sortable(),
-            Number::make('Coste')->min(0)->step(1)->rules('required')->sortable(),
-
+            Number::make('Coste')->min(0)->step(0.01)->rules('required')->sortable(),
             Boolean::make('Finished')->sortable()->hideWhenCreating(),
         ];
     }
@@ -107,6 +107,8 @@ class Task extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            new FinalizarTarea(),
+        ];
     }
 }
