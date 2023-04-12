@@ -55,14 +55,16 @@ class Role extends Resource
 
             Text::make('Name')
                 ->rules('required')
-                ->creationRules('unique:roles,name'),
+                ->creationRules('unique:roles,name')
+                ->sortable(),
 
             Text::make('Guard Name')
-                ->rules('required'),
+                ->rules('required')
+                ->sortable(),
 
             Text::make('Permissions', function () {
                 return $this->permissions->pluck('name')->implode(', ');
-            })->sortable(),
+            }),
 
             BelongsToMany::make('Permissions')
                 ->display('name')

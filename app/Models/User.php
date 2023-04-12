@@ -68,13 +68,4 @@ class User extends Authenticatable
     {
         return $this->roles()->where('name', $roleName)->exists();
     }
-
-    public function setIsAdminAttribute()
-    {
-        if ($this->hasRole('admin')) {
-            $this->attributes['is_admin'] = true;
-        } else {
-            $this->attributes['is_admin'] = false;
-        }
-    }
 }

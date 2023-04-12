@@ -2,11 +2,13 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\TareaFinalizada;
 use App\Nova\Metrics\PrecioMedioTareas;
 use App\Nova\Metrics\NuevasTareas;
 use App\Nova\Metrics\TareasPorDia;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -49,9 +51,11 @@ class Task extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('User', 'user', 'App\Nova\User')->withoutTrashed(),
-            Text::make('Name')->rules('required', 'max:255'),
-            Number::make('Coste')->min(0)->step(1)->rules('required'),
+            Text::make('Name')->rules('required', 'max:255')->sortable(),
+            BelongsTo::make('User', 'user', 'App\Nova\User')->withoutTrashed()->sortable(),
+            Number::make('Coste')->min(0)->step(1)->rules('required')->sortable(),
+
+            Boolean::make('Finished')->sortable()->hideWhenCreating(),
         ];
     }
 
@@ -79,7 +83,9 @@ class Task extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            new TareaFinalizada(),
+        ];
     }
 
     /**
