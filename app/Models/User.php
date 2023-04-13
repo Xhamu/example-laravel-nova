@@ -18,7 +18,7 @@ class User extends Authenticatable
     protected $dispatchesEvents = [
         'created' => \App\Events\UserCreated::class,
     ];
-
+    
     /**
      * The attributes that are mass assignable.
      *
