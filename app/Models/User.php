@@ -15,6 +15,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
+    protected $dispatchesEvents = [
+        'created' => \App\Events\UserCreated::class,
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -67,5 +71,12 @@ class User extends Authenticatable
     public function hasRole(string $roleName): bool
     {
         return $this->roles()->where('name', $roleName)->exists();
+    }
+
+    public function getStoredRole()
+    {
+        $roleClass = config('permission.models.role');
+
+        return $roleClass::where('name', 'user')->first();
     }
 }

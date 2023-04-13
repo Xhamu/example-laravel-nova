@@ -30,7 +30,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('chart-bar'),
-
+        
                 MenuSection::make('Usuarios', [
                     MenuItem::make('Usuarios', '/resources/users'),
                     MenuItem::make('Tareas', '/resources/tasks'),
