@@ -25,7 +25,9 @@ class TipoUsuario extends BooleanFilter
      */
     public function apply(NovaRequest $request, $query, $value)
     {
-        return $query;
+        return $query->whereHas('roles', function ($query) use ($value) {
+            $query->where('name', $value);
+        });
     }
 
     /**
