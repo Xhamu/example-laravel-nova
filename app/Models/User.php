@@ -18,7 +18,7 @@ class User extends Authenticatable
     protected $dispatchesEvents = [
         'created' => \App\Events\UserCreated::class,
     ];
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -45,7 +45,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be cast.
-     *
+     * 
      * @var array<string, string>
      */
     protected $casts = [
@@ -61,7 +61,6 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
     }
-
 
     public function tasks()
     {

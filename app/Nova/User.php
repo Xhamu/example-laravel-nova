@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\TipoUsuario;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -10,8 +11,10 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Resource;
+use GuzzleHttp\Psr7\Header;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\PasswordConfirmation;
 
 class User extends Resource
@@ -51,6 +54,8 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
+
+            Heading::make('<p style="font-size: 13px; font-weight: bold; background-color: #115cd0; color: white; padding: 5px 5px 5px 5px; text-align: center; ">No es necesario añadir una foto de perfil.</p>')->asHtml(),
 
             Avatar::make('Avatar')
                 ->disk('public')
@@ -109,7 +114,7 @@ class User extends Resource
     public function filters(NovaRequest $request)
     {
         return [
-            new Filters\TipoUsuario,
+            new TipoUsuario(),
         ];
     }
 
