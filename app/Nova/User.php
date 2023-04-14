@@ -55,7 +55,10 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Heading::make('<p style="font-size: 13px; font-weight: bold; background-color: #115cd0; color: white; padding: 5px 5px 5px 5px; text-align: center; ">No es necesario añadir una foto de perfil.</p>')->asHtml(),
+            Heading::make('<p style="font-size: 13px; font-weight: bold; background-color: #115cd0; color: white; padding: 5px 5px 5px 5px; text-align: center; ">No es necesario añadir una foto de perfil.</p>')
+                ->asHtml()
+                ->hideFromDetail()
+                ->hideWhenUpdating(),
 
             Avatar::make('Avatar')
                 ->disk('public')
