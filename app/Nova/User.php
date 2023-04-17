@@ -142,14 +142,4 @@ class User extends Resource
     {
         return [];
     }
-
-    public function routeNotificationForMail()
-    {
-        return $this->email_address;
-    }
-
-    public function routeNotificationForDatabase()
-    {
-        return ['connection' => 'database-connection-name', 'table' => 'notifications'];
-    }
 }
