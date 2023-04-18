@@ -48,14 +48,16 @@ class Profession extends Resource
 
             Text::make('Name')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->showOnPreview(),
 
             HasMany::make('Users', 'users', User::class),
 
             Textarea::make('Description')
                 ->sortable()
                 ->rows(5)
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->showOnPreview(),
         ];
     }
 

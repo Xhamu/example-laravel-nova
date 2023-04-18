@@ -47,11 +47,13 @@ class Permission extends Resource
                 ->sortable()
                 ->rules('required', 'max:255')
                 ->creationRules('unique:permissions,name')
-                ->updateRules('unique:permissions,name,{{resourceId}}'),
+                ->updateRules('unique:permissions,name,{{resourceId}}')
+                ->showOnPreview(),
 
             Text::make('Guard Name')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->showOnPreview(),
         ];
     }
 

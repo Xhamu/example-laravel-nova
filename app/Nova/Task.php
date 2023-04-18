@@ -59,10 +59,10 @@ class Task extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Name')->rules('required', 'max:255')->sortable(),
-            BelongsTo::make('User', 'user', 'App\Nova\User')->withoutTrashed()->sortable(),
-            Number::make('Coste')->min(0)->step(0.01)->rules('required')->sortable(),
-            Boolean::make('Finished')->sortable()->hideWhenCreating(),
+            Text::make('Name')->rules('required', 'max:255')->sortable()->showOnPreview(),
+            BelongsTo::make('User', 'user', 'App\Nova\User')->withoutTrashed()->sortable()->showOnPreview(),
+            Number::make('Coste')->min(0)->step(0.01)->rules('required')->sortable()->showOnPreview(),
+            Boolean::make('Finished')->sortable()->showOnPreview()->hideWhenCreating(),
         ];
     }
 
