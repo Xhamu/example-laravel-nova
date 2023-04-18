@@ -65,17 +65,20 @@ class User extends Resource
                 ->path('avatars')
                 ->maxWidth(60)
                 ->rounded()
-                ->disableDownload(),
+                ->disableDownload()
+                ->showOnPreview(),
 
             Text::make('Name')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->showOnPreview(),
 
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->updateRules('unique:users,email,{{resourceId}}')
+                ->showOnPreview(),
 
             Password::make('Password')
                 ->creationRules('required', Rules\Password::defaults(), 'confirmed')
@@ -87,7 +90,8 @@ class User extends Resource
 
             BelongsTo::make('Profession', 'profession', Profession::class)
                 ->display('name')
-                ->sortable(),
+                ->sortable()
+                ->showOnPreview(),
 
             HasMany::make('Tasks'),
 
